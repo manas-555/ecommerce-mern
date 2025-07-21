@@ -16,7 +16,7 @@ export const displayRazorpay = async (amount) => {
   }
 
   // 1. Create order from backend
-  const orderRes = await fetch('http://localhost:4000/create-order', {
+  const orderRes = await fetch(`${process.env.REACT_APP_API_BASE_URL}/create-order`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
