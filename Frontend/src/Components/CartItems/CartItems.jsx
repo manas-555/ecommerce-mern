@@ -30,7 +30,7 @@ const CartItems = () => {
             if(cartItems[e.id]>0){
                 return <div>
                 <div className="cartitems-format cartitems-format-main">
-                    <img className='carticon-product-icon' src={e.image}/>
+                    <img className='carticon-product-icon' onClick={() => window.scrollTo(0, 0)} src={e.image}/>
                     <p>{e.name}</p>
                     <p>${e.new_price}</p>
                     <button className='cartitems-quantity'>{cartItems[e.id]}</button>

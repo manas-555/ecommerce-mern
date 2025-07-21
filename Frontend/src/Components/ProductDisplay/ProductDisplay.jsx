@@ -11,13 +11,13 @@ const ProductDisplay = (props) => {
     <div className='productdisplay'>
         <div className="productdisplay-left">
             <div className="productdisplay-img-list">
-                <img src={product.image}/>
-                <img src={product.image}/>
-                <img src={product.image}/>
-                <img src={product.image}/>
+                <img src={`${process.env.REACT_APP_API_BASE_URL}/images/${product.image}`}/>
+                <img src={`${process.env.REACT_APP_API_BASE_URL}/images/${product.image}`}/>
+                <img src={`${process.env.REACT_APP_API_BASE_URL}/images/${product.image}`}/>
+                <img src={`${process.env.REACT_APP_API_BASE_URL}/images/${product.image}`}/>
             </div>
             <div className="productdisplay-img">
-                <img className='productdisplay-main-img' src={product.image}/>
+                <img className='productdisplay-main-img' src={`${process.env.REACT_APP_API_BASE_URL}/images/${product.image}`}/>
             </div>
         </div>
         <div className="productdisplay-right">

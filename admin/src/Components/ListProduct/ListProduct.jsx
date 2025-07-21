@@ -36,7 +36,7 @@ const ListProduct = () => {
             <hr/>
             {allproducts.map((products,index)=>{
                 return <><div key={index} className="listproduct-format-main listproduct-format">
-                <img src={products.image} className="listproduct-product-icon" />
+                <img src={`${process.env.REACT_APP_API_BASE_URL}/images/${products.image}`} className="listproduct-product-icon" />
                 <p>{products.name}</p>
                 <p>${products.old_price}</p>
                 <p>${products.new_price}</p>
