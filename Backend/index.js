@@ -11,16 +11,16 @@ const cors=require("cors");
 const { type } = require("os");
 const MONGO_URL=process.env.MONGO_URL;
 
-app.use(express.json());
-
 app.use(cors({
   origin: [
+    'http://localhost:3000',
     'https://ecommerce-mern-orpin.vercel.app',  // frontend
     'https://ecommerce-mern-ez49.vercel.app'    // admin panel
   ],
   credentials: true
 }));
 
+app.use(express.json());
 
 //Database connection with MongoDB
 mongoose.connect(MONGO_URL)
