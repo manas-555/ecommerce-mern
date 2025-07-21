@@ -1,4 +1,4 @@
-const port=4000;
+const PORT=process.env.PORT || 4000;
 const express=require("express");
 const app=express();
 require("dotenv").config();
@@ -271,7 +271,7 @@ app.post('/create-order',async(req,res)=>{
     }
 })
 
-app.listen(port,(error)=>{
+app.listen(PORT,(error)=>{
     if(!error){
         console.log("Server Running on port "+port)
     }
