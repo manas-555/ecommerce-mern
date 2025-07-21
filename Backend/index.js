@@ -273,7 +273,7 @@ app.post('/create-order',async(req,res)=>{
 
 app.listen(PORT,(error)=>{
     if(!error){
-        console.log("Server Running on port "+port)
+        console.log("Server Running on port "+PORT)
     }
     else{
         console.log("Error : "+error)
