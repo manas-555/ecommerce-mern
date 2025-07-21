@@ -1,0 +1,9 @@
+# OS/System files
+.DS_Store
+Thumbs.db
+
+# Global ignores
+**/node_modules/
+**/build/
+**/dist/
+**/.env

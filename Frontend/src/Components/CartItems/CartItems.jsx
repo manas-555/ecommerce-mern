@@ -1,12 +1,20 @@
 import React, { useContext } from 'react'
 import './CartItems.css'
 import { ShopContext } from '../../Context/ShopContext'
+import {displayRazorpay} from '../Checkout/razorpay'
 
 const CartItems = () => {
   const {all_product,cartItems,removeFromCart,getTotalCartAmount}=useContext(ShopContext);
-  const giveAlert=()=>{
-    alert("Your order has been placed !");
-  }
+
+  const handleCheckout=()=>{
+    const amount=getTotalCartAmount();
+    if(amount==0){
+        alert("Cart is empty!");
+        return;
+    }
+    displayRazorpay(amount);
+  };
+
   return (
     <div className='cartitems'>
         <div className="cartitems-format-main">
@@ -53,7 +61,7 @@ const CartItems = () => {
                         <h3>${getTotalCartAmount()}</h3>
                     </div>
                 </div>
-                <button onClick={giveAlert}>PROCEED TO CHECKOUT</button>
+                <button onClick={handleCheckout}>PROCEED TO CHECKOUT</button>
             </div>
             <div className="cartitems-promocode">
                 <p>If you have a prome code , Enter it hear</p>

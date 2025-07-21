@@ -1,18 +1,21 @@
 const port=4000;
 const express=require("express");
 const app=express();
+require("dotenv").config();
+const Razorpay=require("razorpay");
 const mongoose=require("mongoose");
 const jwt=require("jsonwebtoken");
 const multer=require("multer");
 const path=require("path");
 const cors=require("cors");
 const { type } = require("os");
+const MONGO_URL=process.env.MONGO_URL;
 
 app.use(express.json());
 app.use(cors());
 
 //Database connection with MongoDB
-mongoose.connect("mongodb+srv://manasbhondve:jBnKxrgyEce9rdl3@cluster0.hcei9.mongodb.net/e-commerce")
+mongoose.connect(MONGO_URL)
 
 //API creation
 app.get("/",(req,res)=>{
@@ -245,6 +248,27 @@ app.post('/getcart',fetchUser,async(req,res)=>{
     console.log('Getcart');
     let userData=await Users.findOne({_id:req.user.id});
     res.json(userData.cartData);
+})
+
+//creating endpoint for razorpay payment gateway
+const razorpay=new Razorpay({
+    key_id:process.env.RAZORPAY_KEY_ID,
+    key_secret:process.env.RAZORPAY_SECRET_KEY,
+})
+app.post('/create-order',async(req,res)=>{
+    try{
+        const {amount}=req.body;
+        const options={
+            amount:amount*100,
+            currency:"INR",
+            receipt:`receipt_order_${Math.floor(Math.random()*1000000)}`,
+        };
+        const order=await razorpay.orders.create(options);
+        res.status(200).json({success:true,order});
+    }catch(err){
+        console.error(err);
+        res.status(500).json({success:false,error:"Something went wrong"});
+    }
 })
 
 app.listen(port,(error)=>{
