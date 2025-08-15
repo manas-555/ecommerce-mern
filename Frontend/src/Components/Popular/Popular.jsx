@@ -14,7 +14,8 @@ const Popular = () => {
         <hr/>
         <div className="popular-item">
             {popularProducts.map((item)=>{
-                return <Item key={item} id={item.id} name={item.name} image={item.image} new_price={item.new_price} old_price={item.old_price}/>
+                console.log(item.image);
+                return <Item key={item.id} id={item.id} name={item.name} image={item.image} new_price={item.new_price} old_price={item.old_price}/>
             })}
         </div>
     </div>

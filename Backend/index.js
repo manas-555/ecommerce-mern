@@ -31,23 +31,27 @@ app.get("/",(req,res)=>{
 })
 
 //Image storage engine
-const storage=multer.diskStorage({
+const storage = multer.diskStorage({
     destination: './upload/images',
-    filename:(req,file,cb)=>{
-        return cb(null,`${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
+    filename: (req, file, cb) => {
+        cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
     }
-})
+});
 
-const upload =multer({storage:storage})
+const upload = multer({ storage: storage });
 
-//Creating upload endpoint 
+// Serve images statically
 app.use('/images', express.static(path.join(__dirname, 'upload/images')));
-app.post("/upload",upload.single('product'),(req,res)=>{
+
+// Upload endpoint
+app.post("/upload", upload.single('product'), (req, res) => {
+    // Generate full URL dynamically
+    const fullUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
     res.json({
-        success:1,
-        image_url:`${process.env.BACKEND_URL}/images/${req.file.filename}`
-    })
-})
+        success: 1,
+        image_url: fullUrl
+    });
+});
 
 //Schema for Creating products
 const Product =mongoose.model("Product",{
@@ -281,7 +285,7 @@ app.post('/create-order',async(req,res)=>{
 
 app.listen(PORT,(error)=>{
     if(!error){
-        console.log("Server Running on port "+PORT)
+        console.log("Server Running on port "+PORT+MONGO_URL)
     }
     else{
         console.log("Error : "+error)
