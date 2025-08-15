@@ -3,16 +3,17 @@ import './ListProduct.css'
 import cross_icon from '../../assets/Admin_Assets/cross_icon.png'
 
 const ListProduct = () => {
+    const API_BASE_URL = "https://ecommerce-mern-hlm8.onrender.com";
     const [allproducts,setAllProducts]=useState([]);
-    console.log("API base URL:", process.env.REACT_APP_API_BASE_URL);
+    console.log("API base URL:", API_BASE_URL);
     const fetchInfo=async()=>{
-        await fetch(`${process.env.REACT_APP_API_BASE_URL}/allproducts`).then((res)=>res.json()).then((data)=>{setAllProducts(data)});
+        await fetch(`${API_BASE_URL}/allproducts`).then((res)=>res.json()).then((data)=>{setAllProducts(data)});
     }
     useEffect(()=>{
         fetchInfo();
     },[])
     const remove_product=async(id)=>{
-        await fetch(`${process.env.REACT_APP_API_BASE_URL}/removeproduct`,{
+        await fetch(`${API_BASE_URL}/removeproduct`,{
             method:'POST',
             headers:{
                 Accept:'application/json',

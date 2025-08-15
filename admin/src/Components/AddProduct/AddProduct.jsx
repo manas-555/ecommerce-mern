@@ -21,6 +21,7 @@ const AddProduct = () => {
   };
 
   const Add_Product = async () => {
+    const API_BASE_URL = "https://ecommerce-mern-hlm8.onrender.com";
     console.log('Sending product:', productDetails);
 
     let responseData;
@@ -28,7 +29,7 @@ const AddProduct = () => {
     formData.append('product', image);
 
     try {
-      const uploadRes = await fetch(`${process.env.REACT_APP_API_BASE_URL}/upload`, {
+      const uploadRes = await fetch(`${API_BASE_URL}/upload`, {
         method: 'POST',
         body: formData,
       });
@@ -43,7 +44,7 @@ const AddProduct = () => {
 
         console.log('Uploading product with image:', updatedProduct);
 
-        const addRes = await fetch(`${process.env.REACT_APP_API_BASE_URL}/addproduct`, {
+        const addRes = await fetch(`${API_BASE_URL}/addproduct`, {
           method: 'POST',
           headers: {
             Accept: 'application/json',
