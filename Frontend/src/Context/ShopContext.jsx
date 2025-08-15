@@ -12,21 +12,32 @@ const getDefaultCart=()=>{
 const ShopContextProvider=(props)=>{
     const [all_product,setAll_Product]=useState([]);
     const [cartItems,setCartItems]=useState(getDefaultCart());
-    useEffect(()=>{
-        fetch(`${process.env.REACT_APP_API_BASE_URL}/allproducts`).then((response)=>response.json()).then((data)=>setAll_Product(data))
-        if(localStorage.getItem('auth-token')){
-            fetch(`${process.env.REACT_APP_API_BASE_URL}/getcart`,{
-                method:'POST',
-                headers:{
-                    Accept:'application/form-data',
-                    'auth-token':`${localStorage.getItem('auth-token')}`,
-                    'Content-Type':'application/json',
-                },
-                body:'',
-            }).then((response)=>response.json())
-            .then((data)=>setCartItems(data));
-        }
-    },[])
+    useEffect(() => {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/allproducts`)
+      .then((response) => response.json())
+      .then((data) => {
+          // Update image URLs to full path
+          const updatedData = data.map(item => ({
+              ...item,
+              image: item.image.startsWith('http') ? item.image : `${process.env.REACT_APP_API_BASE_URL}${item.image}`
+          }));
+          setAll_Product(updatedData);
+      });
+
+    if(localStorage.getItem('auth-token')){
+        fetch(`${process.env.REACT_APP_API_BASE_URL}/getcart`,{
+            method:'POST',
+            headers:{
+                Accept:'application/form-data',
+                'auth-token':`${localStorage.getItem('auth-token')}`,
+                'Content-Type':'application/json',
+            },
+            body:'',
+        }).then((response)=>response.json())
+          .then((data)=>setCartItems(data));
+    }
+}, [])
+
     const addToCart=(itemId)=>{
         setCartItems((prev)=>({...prev,[itemId]:prev[itemId]+1}));
         if(localStorage.getItem('auth-token')){

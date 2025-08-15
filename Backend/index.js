@@ -31,24 +31,27 @@ app.get("/",(req,res)=>{
 })
 
 const storage = multer.diskStorage({
-  destination: './upload/images',
-  filename: (req, file, cb) => {
-    cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
-  }
+    destination: './upload/images',
+    filename: (req, file, cb) => {
+        cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
+    }
 });
 
-const upload = multer({ storage });
+const upload = multer({ storage: storage });
 
+// Serve static images
 app.use('/images', express.static(path.join(__dirname, 'upload/images')));
 
-app.post('/upload', upload.single('product'), (req, res) => {
-  const fullUrl = `https://ecommerce-mern-hlm8.onrender.com/images/${req.file.filename}`;
-  res.json({
-    success: 1,
-    image_url: fullUrl
-  });
+// Upload endpoint
+app.post("/upload", upload.single('product'), (req, res) => {
+    // Construct full URL
+    const fullUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+    
+    res.json({
+        success: 1,
+        image_url: fullUrl
+    });
 });
-
 
 //Schema for Creating products
 const Product =mongoose.model("Product",{
